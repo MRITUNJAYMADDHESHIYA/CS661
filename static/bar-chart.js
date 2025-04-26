@@ -1,6 +1,6 @@
 /**
  * Renders a horizontal bar chart of search interest by category (Year + Country)
- * and shows details on hover via a tooltip positioned near the mouse.kk
+ * and shows details on hover via a tooltip positioned near the mouse.kkasfasf
  * @param {Array<{category: string, search_interest: number}>} barData
  */
 function renderBarChart(barData) {
