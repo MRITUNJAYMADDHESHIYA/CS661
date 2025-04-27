@@ -1,1 +1,1 @@
-Project CS661 :- Google Treand Search 
+Project CS661 :- Google Trends Search 
