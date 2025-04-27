@@ -61,7 +61,7 @@ function renderMapChart(freq) {
   const maxVal = d3.max(Object.values(freq));
   const colorScale = d3.scaleThreshold()
     .domain(d3.range(0, maxVal, maxVal / 8))
-    .range(d3.schemeGreens[9]);
+    .range(['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#b10026', '#7f0000']); // Yellow to brown
 
   // Draw countries
   svg.selectAll('path')
@@ -95,15 +95,15 @@ function renderMapChart(freq) {
   const thresholds = d3.range(0, maxVal, maxVal / 8);
   thresholds.forEach((t, i) => {
     legend.append('rect')
-      .attr('x', 0)
-      .attr('y', i * 25)
+      .attr('x', -650)
+      .attr('y', (i+3) * 25)
       .attr('width', 20)
       .attr('height', 20)
       .attr('fill', colorScale(t + 0.1));
 
     legend.append('text')
-      .attr('x', 30)
-      .attr('y', i * 25 + 14)
+      .attr('x', -620)
+      .attr('y', (i+3) * 25 + 14)
       .style('font-size', '12px')
       .style('fill', '#333')
       .text(Math.round(t));

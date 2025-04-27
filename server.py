@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load your dataset
-df = pd.read_csv('Final_Refined_Google_Trends_Dataset_Cleaned.csv')
+df = pd.read_csv('Final_Cleaned_Google_Trends_2002_2010_50k.csv')
 
 @app.route('/')
 def index():
@@ -63,7 +63,12 @@ def fetchdata():
     pie = filtered.groupby('category')['search_interest'].sum().reset_index().to_dict(orient='records')
 
     # Bar Chart Data
-    bar_df = df[df['country'] == country] if country else df
+    if country:
+      bar_df = df[df['country'] == country]
+      if bar_df.shape[0] < 15:  # << if not enough data
+        bar_df = df  # fall back to full dataset
+    else:
+       bar_df = df
     bar = bar_df.groupby('category')['search_interest'].sum().reset_index().sort_values(by='search_interest', ascending=False).to_dict(orient='records')
 
     # Line Chart Data

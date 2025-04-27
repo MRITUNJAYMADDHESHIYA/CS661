@@ -5,7 +5,7 @@ let lineChartInstance = null;
  * Renders a line chart of average search interest over years for a category.
  * @param {Array<{year: string|number, search_interest: number}>} lineData
  */
-function renderLineChart(lineData) {
+function renderLineChart(lineData, category) {
     const container = document.getElementById('line');
     container.innerHTML = `<canvas id="line-canvas"></canvas>`;
     const ctx = document.getElementById('line-canvas').getContext('2d');
@@ -16,7 +16,7 @@ function renderLineChart(lineData) {
         data: {
             labels: lineData.map(d => d.year),
             datasets: [{
-                label: 'Avg Search Interest',
+                label: `category Search Interest`,
                 data: lineData.map(d => d.search_interest),
                 borderColor: '#e15759',
                 backgroundColor: 'rgba(225,87,89,0.1)',

@@ -1,6 +1,6 @@
 /**
  * Renders a horizontal bar chart of search interest by category (Year + Country)
- * and shows details on hover via a tooltip positioned near the mouse.kkasfasf
+ * and shows details on hover via a tooltip positioned near the mouse.
  * @param {Array<{category: string, search_interest: number}>} barData
  */
 function renderBarChart(barData) {
@@ -26,20 +26,20 @@ function renderBarChart(barData) {
         .style('pointer-events', 'none')
         .style('opacity', 0);
 
-    const margin = { top: 10, right: 20, bottom: 30, left: 120 };
+    const margin = { top: 10, right: 20, bottom: 30, left: 90 };
     const width = containerNode.clientWidth - margin.left - margin.right ;
     const height = barData.length * 40;
 
     const svg = container.append('svg')
-        .attr('width', width + margin.left + margin.right )
+        .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
+        .style('background', '#f9f9f9') // Set background color
       .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
     const x = d3.scaleLinear()
-        .domain([0, d3.max(barData, d => d.search_interest)])
+        .domain([0, 1.5 * d3.max(barData, d=> d.search_interest)])
         .range([0, width]);
-
     const y = d3.scaleBand()
         .domain(barData.map(d => d.category))
         .range([0, height])
@@ -48,7 +48,19 @@ function renderBarChart(barData) {
     svg.append('g')
         .call(d3.axisLeft(y))
         .selectAll('text')
-        .style('font-size', '12px');
+        .style('font-size', '10px')
+        .each(function(d) {
+            const self = d3.select(this);
+            const words = d.split(' ');  // split label by spaces
+            self.text('');  // clear original text
+            for (let i = 0; i < words.length; i++) {
+                self.append('tspan')
+                    .text(words[i])
+                    .attr('x', -10)
+                    .attr('dy', i === 0 ? 0 : '1em')  // first word normal, second+ word pushed down
+                    .attr('text-anchor', 'end');
+            }
+        });
 
     svg.append('g')
         .attr('transform', `translate(0, ${height})`)

@@ -21,7 +21,7 @@ function renderPieChart(pieData, year = '') {
 
     const container = document.getElementById('pie');
     container.innerHTML = `
-      <div class="chart-title">Top Categories in ${year || 'All Years'}</div>
+      <div class="chart-title"><strong>Top Categories in a ${year || "year"}</strong></div>
       <canvas id="pie-canvas"></canvas>
     `;
     const ctx = document.getElementById('pie-canvas').getContext('2d');
@@ -35,8 +35,9 @@ function renderPieChart(pieData, year = '') {
                 data: top6.map(d => d.search_interest),
                 backgroundColor: [
                     '#4e79a7','#f28e2b','#e15759',
-                    '#76b7b2','#59a14f','#edc948','#b07aa1'
-                ]
+                    '#0600ff','#59a14f','#edc948','#b07aa1'
+                ],       
+                borderWidth: 0 
             }]
         },
         options: {
@@ -46,14 +47,17 @@ function renderPieChart(pieData, year = '') {
                 tooltip: {
                     callbacks: {
                         label: (tooltipItem) => {
+                            const total = top6.reduce((sum, d) => sum + d.search_interest, 0); // Total sum of search_interest
+                            const value = tooltipItem.raw; // Current slice's value
+                            const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage
+                            
                             const label = tooltipItem.label;
-                            const value = tooltipItem.raw;
                             if (label === 'Other') {
                                 const idx = tooltipItem.dataIndex;
                                 const categories = top6[idx].otherCategories;
-                                return `Other: ${value} (Includes: ${categories.join(', ')})`;
+                                return `Other: ${percentage}% (Includes: ${categories.join(', ')})`;
                             }
-                            return `${label}: ${value}`;
+                            return `${label}: ${percentage}%`;
                         }
                     }
                 }
