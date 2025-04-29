@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Trends Dashboard</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <!-- D3-Cloud for interactive word-cloud -->
+  <script src="https://cdn.jsdelivr.net/npm/d3-cloud@1/build/d3.layout.cloud.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+  <style>
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+    body { width: 100vw; height: 100vh; font-family: Arial, sans-serif; margin: 0;overflow-y: hidden; }
+    .header { background: #4CAF50; color: #fff; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; height: 6vh; }
+    .header-text { font-size: 32px; font-weight: bold; text-align: center; width: 40%; }
+    .controls { display: flex; justify-content: flex-end; align-items: center; gap: 10px; width: 60%; }
+    .controls select { padding: 5px; font-size: 16px; }
+    .dashboard {
+  display: flex;
+  height: calc(100vh - 6vh);
+  overflow: hidden; /* hide accidental overflow */
+}
+
+.left {
+  flex: 3; /* 3 parts */
+  display: flex;
+  flex-direction: column;
+}
+
+.right {
+  flex: 1; /* 1 part */
+  border-left: 1px solid #ddd;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: auto; /* just in case */
+}
+    .top-row, .bottom-row { display: flex; }
+    .top-row { height: 60%; }
+    .bottom-row { height: 40%; }
+    .chart-box, #map, #line { border: 1px solid #ccc; background: #f9f9f9; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+    .chart-box, #wordcloud, #pie { width: 40%; height: 100%; }
+    #map, #line { width: 60%; height: 100%; }
+    #bar { background: #f9f9f9; border: 1px solid #ccc; box-sizing: border-box; display: flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-text" >
+      GOOGLE TRENDS DASHBOARD
+    </div>
+    <div class="controls">
+      <!-- Added “All” options with empty value for unfiltered queries -->
+      <select title="Select a year to filter the trends data." id="year">
+        <option value="" selected>All Years</option>
+      </select>
+      <select title="Choose a country to see trends for that region." id="country">
+        <option value="" selected>All Countries</option>
+      </select>
+      <select title="Pick a category to see trends within a specific area." id="category">
+        <option value="" selected>All Categories</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="left">
+      <div class="top-row">
+        <div class="chart-box" id="map"><span>World Map</span></div>
+        <div class="chart-box" id="pie"><span>Pie Chart</span></div>
+      </div>
+      <div class="bottom-row">
+        <div class="chart-box" id="wordcloud"><span>Word Cloud</span></div>
+        <div class="chart-box" id="line"><span>Line Graph</span></div>
+      </div>
+    </div>
+    <div class="right" id="bar"></div>
+  </div>
+
+  <script src="/static/pie-chart.js"></script>
+  <script src="/static/bar-chart.js"></script>
+  <script src="/static/map-chart.js"></script>
+  <script src="/static/wordcloud-chart.js"></script>
+  <script src="/static/line-chart.js"></script>
+  <script src="/static/main.js"></script>
+</body>
+</html>
